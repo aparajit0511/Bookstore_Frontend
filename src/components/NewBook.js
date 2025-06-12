@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 export default function NewBook() {
   const [flag, setFlag] = useState(false);
+  const [error, setError] = useState(true);
   const [book, setBook] = useState({
     title: "",
     author: "",
@@ -23,7 +24,7 @@ export default function NewBook() {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/books", {
+      const response = await fetch("http://localhost:8080/api/add-books", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,8 +40,13 @@ export default function NewBook() {
       } else {
         console.error("Failed to add book");
       }
+
+      setTimeout(() => {
+        navigate(`/`);
+      }, 3000);
     } catch (error) {
       console.error("Error during POST request:", error);
+      setError(false);
     }
   };
 
@@ -141,6 +147,11 @@ export default function NewBook() {
       {flag && (
         <h4 style={{ marginTop: "15px", color: "green" }}>
           Book added successfully
+        </h4>
+      )}
+      {!error && (
+        <h4 style={{ marginTop: "15px", color: "green" }}>
+          Failed to add book
         </h4>
       )}
     </div>
