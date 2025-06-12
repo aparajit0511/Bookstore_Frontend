@@ -17,7 +17,16 @@ export default function DisplayBooks() {
 
   console.log(bookData);
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center", // center horizontally
+        paddingTop: "30px",
+        minHeight: "50vh", // optional for vertical centering
+        backgroundColor: "#f0f0f0",
+      }}
+    >
       <h4>DisplayBooks</h4>
       {bookData.map((result) => (
         <div>
@@ -75,6 +84,32 @@ export default function DisplayBooks() {
               }}
             >
               <h4>Price</h4>:<p>${result.price}</p>
+            </div>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button
+                style={{
+                  padding: "5px 10px",
+                  backgroundColor: "#4caf50",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                Update
+              </button>
+              <button
+                style={{
+                  padding: "5px 10px",
+                  backgroundColor: "#f44336",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
