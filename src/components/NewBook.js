@@ -1,11 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function NewBook() {
+  const [flag, setFlag] = useState(false);
+  const [book, setBook] = useState({
+    title: "",
+    author: "",
+    genre: "",
+    price: 0.0,
+  });
+
   const navigate = useNavigate();
   const onClickHandler = () => {
     navigate("/");
   };
+
+  const onHandleChange = (e) => {
+    setBook({ ...book, [e.target.name]: e.target.value });
+  };
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8080/books", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(book),
+      });
+
+      if (response.ok) {
+        console.log("Book added successfully");
+        // Optionally reset the form:
+        setBook({ title: "", author: "", genre: "", price: "" });
+        setFlag(true);
+      } else {
+        console.error("Failed to add book");
+      }
+    } catch (error) {
+      console.error("Error during POST request:", error);
+    }
+  };
+
   return (
     <div
       style={{
@@ -46,20 +84,44 @@ export default function NewBook() {
         }}
       >
         <label>
-          Book Name:
-          <input type="text" style={{ width: "100%", padding: "8px" }} />
+          Title:
+          <input
+            type="text"
+            name="title"
+            style={{ width: "100%", padding: "8px" }}
+            value={book.title}
+            onChange={onHandleChange}
+          />
         </label>
         <label>
           Author:
-          <input type="text" style={{ width: "100%", padding: "8px" }} />
+          <input
+            type="text"
+            name="author"
+            style={{ width: "100%", padding: "8px" }}
+            value={book.author}
+            onChange={onHandleChange}
+          />
         </label>
         <label>
           Genre:
-          <input type="text" style={{ width: "100%", padding: "8px" }} />
+          <input
+            type="text"
+            name="genre"
+            style={{ width: "100%", padding: "8px" }}
+            value={book.genre}
+            onChange={onHandleChange}
+          />
         </label>
         <label>
           Price:
-          <input type="number" style={{ width: "100%", padding: "8px" }} />
+          <input
+            type="number"
+            name="price"
+            style={{ width: "100%", padding: "8px" }}
+            value={book.price}
+            onChange={onHandleChange}
+          />
         </label>
         <button
           type="submit"
@@ -71,10 +133,16 @@ export default function NewBook() {
             borderRadius: "5px",
             cursor: "pointer",
           }}
+          onClick={onSubmitHandler}
         >
           Submit
         </button>
       </form>
+      {flag && (
+        <h4 style={{ marginTop: "15px", color: "green" }}>
+          Book added successfully
+        </h4>
+      )}
     </div>
   );
 }
