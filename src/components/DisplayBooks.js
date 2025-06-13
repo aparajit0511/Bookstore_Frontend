@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { BSDataContext } from "../ContextAPI/BSDataContext";
 
 export default function DisplayBooks() {
   const [bookData, setBookData] = useState([]);
+  const { bookList, setBookList } = useContext(BSDataContext);
+  const navigate = useNavigate();
   useEffect(() => {
     async function callBooksInfo() {
       try {
@@ -13,6 +17,7 @@ export default function DisplayBooks() {
       }
     }
     callBooksInfo();
+    console.log("check api call");
   }, []);
 
   console.log(bookData);
@@ -107,6 +112,7 @@ export default function DisplayBooks() {
                   borderRadius: "4px",
                   cursor: "pointer",
                 }}
+                onClick={() => navigate(`/${result.bookId}`)}
               >
                 Delete
               </button>
