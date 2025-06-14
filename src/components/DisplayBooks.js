@@ -4,7 +4,7 @@ import { BSDataContext } from "../ContextAPI/BSDataContext";
 
 export default function DisplayBooks() {
   const [bookData, setBookData] = useState([]);
-  const { bookList, setBookList } = useContext(BSDataContext);
+  const { setBookList } = useContext(BSDataContext);
   const navigate = useNavigate();
   useEffect(() => {
     async function callBooksInfo() {
@@ -99,6 +99,10 @@ export default function DisplayBooks() {
                   border: "none",
                   borderRadius: "4px",
                   cursor: "pointer",
+                }}
+                onClick={() => {
+                  setBookList(result);
+                  navigate(`/newbookentry/${result.bookId}`);
                 }}
               >
                 Update

@@ -3,11 +3,9 @@ import { BSDataContext } from "../ContextAPI/BSDataContext";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function DeleteBook() {
-  const { bookList, setBookList } = useContext(BSDataContext);
   const navigate = useNavigate();
   const { bookId } = useParams();
   console.log("hi delete", bookId);
-  console.log(bookList.bookId);
 
   useEffect(() => {
     async function deleteBookEntry() {

@@ -7,10 +7,12 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import NewBook from "./components/NewBook";
 import DeleteBook from "./components/DeleteBook";
 import BSDataProvider from "./ContextAPI/BSDataProvider";
+import UpdateBook from "./components/UpdateBook";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/newbookentry", element: <NewBook /> },
+  { path: "/newbookentry/:bookId", element: <UpdateBook /> },
   { path: "/:bookId", element: <DeleteBook /> },
 ]);
 
