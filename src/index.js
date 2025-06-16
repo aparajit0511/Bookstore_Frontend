@@ -8,9 +8,13 @@ import NewBook from "./components/NewBook";
 import DeleteBook from "./components/DeleteBook";
 import BSDataProvider from "./ContextAPI/BSDataProvider";
 import UpdateBook from "./components/UpdateBook";
+import ShowBooks from "./components/ShowBooks";
+import DisplayUsers from "./componentUser/DisplayUsers";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
+  { path: "/books", element: <ShowBooks /> },
+  { path: "/users", element: <DisplayUsers /> },
   { path: "/newbookentry", element: <NewBook /> },
   { path: "/newbookentry/:bookId", element: <UpdateBook /> },
   { path: "/:bookId", element: <DeleteBook /> },

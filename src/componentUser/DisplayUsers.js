@@ -1,26 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { BSDataContext } from "../ContextAPI/BSDataContext";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function DisplayBooks() {
-  const [bookData, setBookData] = useState([]);
-  const { setBookList } = useContext(BSDataContext);
+export default function DisplayUsers() {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState([]);
+
   useEffect(() => {
-    async function callBooksInfo() {
+    async function getUsers() {
       try {
-        const res = await fetch("http://localhost:8080/");
-        const data = await res.json();
-        setBookData(data);
+        const response = await fetch("http://localhost:8080/users").then(
+          (res) => res.json()
+        );
+        if (response) {
+          console.log("USers fetched successfully");
+          setUserData(response);
+        } else {
+          console.log("Unable to extract user data");
+        }
       } catch (error) {
-        console.error("Failed to fetch data:", error);
+        console.log("Catch error", error);
       }
     }
-    callBooksInfo();
-    console.log("check api call");
+    getUsers();
   }, []);
-
-  console.log(bookData);
   return (
     <div
       style={{
@@ -32,7 +34,6 @@ export default function DisplayBooks() {
         backgroundColor: "#f0f0f0",
       }}
     >
-      <h4>DisplayBooks</h4>
       <button
         style={{
           marginBottom: "20px",
@@ -47,7 +48,8 @@ export default function DisplayBooks() {
       >
         ← Back
       </button>
-      {bookData.map((result) => (
+      <h4>DisplayUsers</h4>
+      {userData.map((result) => (
         <div>
           <div
             style={{
@@ -72,7 +74,7 @@ export default function DisplayBooks() {
                 alignItems: "center",
               }}
             >
-              <h4>Title</h4>:<p>{result.title}</p>
+              <h4>Username</h4>:<p>{result.userName}</p>
             </div>
             <div
               style={{
@@ -82,28 +84,9 @@ export default function DisplayBooks() {
                 alignItems: "center",
               }}
             >
-              <h4>Author</h4>:<p>{result.author}</p>
+              <h4>Email</h4>:<p>{result.email}</p>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <h4>Genre</h4>:<p>{result.genre}</p>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <h4>Price</h4>:<p>${result.price}</p>
-            </div>
+
             <div style={{ display: "flex", gap: "10px" }}>
               <button
                 style={{
@@ -114,10 +97,10 @@ export default function DisplayBooks() {
                   borderRadius: "4px",
                   cursor: "pointer",
                 }}
-                onClick={() => {
-                  setBookList(result);
-                  navigate(`/newbookentry/${result.bookId}`);
-                }}
+                // onClick={() => {
+                //   setBookList(result);
+                //   navigate(`/newbookentry/${result.bookId}`);
+                // }}
               >
                 Update
               </button>
@@ -130,7 +113,7 @@ export default function DisplayBooks() {
                   borderRadius: "4px",
                   cursor: "pointer",
                 }}
-                onClick={() => navigate(`/${result.bookId}`)}
+                // onClick={() => navigate(`/${result.bookId}`)}
               >
                 Delete
               </button>
